@@ -2,7 +2,9 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <title>🚀 乘法大冒险 - 小学数学游戏</title>
     <style>
         * {
@@ -21,6 +23,8 @@
             align-items: center;
             padding: 20px;
             overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: none;
         }
 
         .game-container {
@@ -115,6 +119,14 @@
             margin: 20px 0;
             outline: none;
             transition: all 0.3s;
+            -webkit-appearance: none;
+            -moz-appearance: textfield;
+        }
+
+        .answer-input::-webkit-outer-spin-button,
+        .answer-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
         }
 
         .answer-input:focus {
@@ -139,6 +151,9 @@
             transition: all 0.3s;
             font-weight: bold;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            -webkit-user-select: none;
+            user-select: none;
+            touch-action: manipulation;
         }
 
         .btn-submit {
@@ -375,29 +390,174 @@
             }
         }
 
+        /* 手机端优化 */
         @media (max-width: 480px) {
-            .title {
-                font-size: 1.8em;
+            body {
+                padding: 10px;
             }
 
-            .question {
-                font-size: 2.5em;
-                flex-direction: column;
-                gap: 10px;
+            .game-container {
+                padding: 20px 15px;
+                border-radius: 15px;
+            }
+
+            .level-indicator {
+                position: relative;
+                top: 0;
+                right: 0;
+                margin-bottom: 15px;
+                display: inline-block;
+                font-size: 0.9em;
+                padding: 8px 16px;
+            }
+
+            .title {
+                font-size: 1.6em;
+                margin-bottom: 15px;
             }
 
             .score-board {
-                gap: 10px;
+                gap: 8px;
+                margin: 15px 0;
             }
 
             .score-item {
+                font-size: 0.85em;
+                padding: 8px 12px;
+                min-width: 85px;
+                border-radius: 15px;
+            }
+
+            .progress-bar {
+                height: 15px;
+                margin: 15px 0;
+            }
+
+            .question-area {
+                padding: 25px 15px;
+                margin: 20px 0;
+                border-radius: 20px;
+            }
+
+            .question {
+                font-size: 2.2em;
+                gap: 10px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .number {
+                padding: 10px 16px;
+                min-width: 50px;
                 font-size: 0.9em;
-                padding: 10px 15px;
+            }
+
+            .operator {
+                font-size: 2.5em;
+            }
+
+            .answer-input {
+                font-size: 1.6em;
+                padding: 12px;
+                border-width: 3px;
+                max-width: 100%;
+            }
+
+            .buttons {
+                gap: 10px;
             }
 
             .btn {
-                padding: 10px 25px;
+                padding: 12px 20px;
                 font-size: 1em;
+                border-radius: 20px;
+                min-width: 80px;
+            }
+
+            .feedback {
+                padding: 15px;
+                font-size: 1.2em;
+                margin: 15px 0;
+            }
+
+            .hint-box {
+                padding: 15px;
+                margin: 15px 0;
+                font-size: 1em;
+            }
+
+            .visual-hint {
+                gap: 8px;
+            }
+
+            .dot-group {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 6px;
+                padding: 10px;
+            }
+
+            .dot {
+                width: 16px;
+                height: 16px;
+            }
+
+            .achievements {
+                margin-top: 20px;
+            }
+
+            .achievement {
+                font-size: 0.85em;
+                padding: 8px 15px;
+                margin: 4px;
+            }
+        }
+
+        /* 超小屏幕（如 iPhone SE） */
+        @media (max-width: 375px) {
+            .game-container {
+                padding: 15px 10px;
+            }
+
+            .title {
+                font-size: 1.4em;
+            }
+
+            .score-item {
+                font-size: 0.75em;
+                padding: 6px 10px;
+                min-width: 75px;
+            }
+
+            .question {
+                font-size: 1.8em;
+                gap: 8px;
+            }
+
+            .number {
+                padding: 8px 12px;
+                min-width: 40px;
+            }
+
+            .operator {
+                font-size: 2em;
+            }
+
+            .answer-input {
+                font-size: 1.4em;
+                padding: 10px;
+            }
+
+            .btn {
+                padding: 10px 16px;
+                font-size: 0.9em;
+            }
+
+            .feedback {
+                font-size: 1em;
+            }
+
+            .dot-group {
+                grid-template-columns: repeat(3, 1fr);
             }
         }
 
@@ -409,6 +569,49 @@
 
             .btn:active {
                 transform: scale(0.95);
+            }
+
+            /* 增大触摸目标 */
+            .btn {
+                min-height: 44px; /* iOS 推荐的最小触摸目标 */
+            }
+
+            .answer-input {
+                min-height: 48px;
+            }
+        }
+
+        /* 横屏手机优化 */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .game-container {
+                padding: 15px 20px;
+            }
+
+            .title {
+                font-size: 1.5em;
+                margin-bottom: 10px;
+            }
+
+            .score-board {
+                margin: 10px 0;
+            }
+
+            .question-area {
+                padding: 20px 15px;
+                margin: 15px 0;
+            }
+
+            .question {
+                font-size: 2em;
+                margin: 10px 0;
+            }
+
+            .answer-input {
+                margin: 10px 0;
+            }
+
+            .achievements {
+                margin-top: 15px;
             }
         }
     </style>
@@ -440,7 +643,7 @@
                 <span class="number" id="result">?</span>
             </div>
 
-            <input type="number" class="answer-input" id="answer" placeholder="输入答案" autocomplete="off">
+            <input type="number" class="answer-input" id="answer" placeholder="输入答案" autocomplete="off" inputmode="numeric" pattern="[0-9]*">
 
             <div class="buttons">
                 <button class="btn btn-submit" onclick="checkAnswer()">✅ 提交</button>
@@ -656,6 +859,24 @@
             if (e.key === 'Enter') {
                 checkAnswer();
             }
+        });
+
+        // 手机端优化：防止双击缩放
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(event) {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
+        // 优化输入框：自动聚焦并滚动到可见区域
+        const answerInput = document.getElementById('answer');
+        answerInput.addEventListener('focus', function() {
+            setTimeout(() => {
+                this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 300);
         });
 
         // 初始化游戏
